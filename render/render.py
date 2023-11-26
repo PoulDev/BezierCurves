@@ -79,3 +79,10 @@ class Render:
 
     def distance(self, p0, p1):
         return sqrt(pow(p1[0] - p0[0], 2) + pow(p1[1] - p0[1], 2))
+
+    def nearest_multiplier(self, number, base):
+        distance = number % base
+        if distance > base / 2:
+            return number + base - distance
+        else:
+            return number - distance

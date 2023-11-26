@@ -3,32 +3,40 @@ from render.render import Render
 from render.theme import *
 
 t = 0
-t_precision = 10000
+running = True
 
 print('''
 ------- COMMANDS -------
 (n) New Point 
 (m) Delete point
 (p) Enable/Disable PreRendering
+(h) Hide/Show construction lines
+(g) Enable/Disable grid
 
 Select and move a point using the mouse
       ''')
 
+# Base Configuration
+t_precision = 10000
+lines = [[-100, -100], [100, 200], [300, -100]]
 WIDTH, HEIGHT = 1000, 750
+GRID_SIZE = 25
 
 pygame.init()
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 render = Render(screen)
 
-lines = [[0, 0], [0, 200], [200, 200]]
-running = True
+# Options
+grid = False
+hide = False
+prerender = False
+
+# Mouse Stuff
 selected_point = None
 mouse_down = False
-prerender = False
 mouse_active = False
 mouse_position = [WIDTH // 2, HEIGHT // 2]
 pointed_point = None
-hide = False
 
 while running:
     screen.fill(BACKGROUND)
@@ -50,7 +58,11 @@ while running:
         elif event.type == pygame.MOUSEMOTION:
             mouse_position = list(event.pos)
             if mouse_down and not selected_point is None:
-                lines[selected_point] = render.return_point_to_normal(list(event.pos))
+                pos = [
+                    render.nearest_multiplier(event.pos[0], GRID_SIZE),
+                    render.nearest_multiplier(event.pos[1], GRID_SIZE)
+                ] if grid else list(event.pos)
+                lines[selected_point] = render.return_point_to_normal(pos)
                 render.points = []
 
         elif event.type == pygame.KEYUP:
@@ -72,19 +84,32 @@ while running:
                 render.points = []
             elif event.key == pygame.K_h:
                 hide = not(hide)
+            elif event.key == pygame.K_g:
+                grid = not(grid)
 
-    if not prerender:
-        render.render_lines(t / t_precision, lines, hide)
-    else:
+    # Grid
+
+    if grid:
+        for x in range(0, WIDTH, GRID_SIZE):
+            pygame.draw.line(screen, (10, 10, 10), (1, x), (WIDTH, x), 2)
+            pygame.draw.line(screen, (10, 10, 10), (x, 1), (x, WIDTH), 2)
+
+    if prerender: # Render the Bezier Curve in a single frame
         render.prerender_lines(lines, hide)
+    else:
+        render.render_lines(t / t_precision, lines, hide)
 
+    # Find the nearest point to the mouse
     mouse_active = False
     for index, point in enumerate(lines):
         point = render.adjust_point_to_render(point)
         if render.distance(mouse_position, point) < 10:
             mouse_active = True
             pointed_point = index
+        elif pointed_point is not None and index == pointed_point:
+            pointed_point = None
 
+    # Render the Bezier Curve
     for point in render.points:
         pygame.draw.circle(screen, BEZIER_CURVE_COLOR, render.adjust_point_to_render(point), 2)
 
@@ -92,7 +117,5 @@ while running:
 
     t += 5
     t %= t_precision + 1
-
-    print(mouse_position)
 
     pygame.display.flip()

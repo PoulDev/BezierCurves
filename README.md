@@ -9,9 +9,13 @@
 
 ## Commands
 (n) New Point 
+
 (m) Delete point
+
 (p) Enable/Disable PreRendering
+
 (h) Hide/Show construction lines
+
 (g) Enable/Disable grid
 
 Select and move a point using the mouse

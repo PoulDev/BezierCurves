@@ -1,10 +1,11 @@
 # Bézier Curve
  (learning) Bézier Curves with python
 
-![Editing](./img/Editing.gif)
-
 ## Quadratic Bézier Curve
 ![QuadraticCurve](./img/QuadraticCurve.gif)
+
+## Live Editing
+![Editing](./img/Editing.gif)
 
 ## Commands
 (n) New Point 

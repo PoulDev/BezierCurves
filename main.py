@@ -1,6 +1,7 @@
 import pygame
 from render.render import Render
 from render.theme import *
+import time
 
 t = 0
 running = True

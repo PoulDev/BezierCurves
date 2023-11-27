@@ -1,5 +1,5 @@
 # Bézier Curve
- (learning) Bézier Curves with python
+ rendering Bézier Curves using the Casteljau's algorithm
 
 ## Quadratic Bézier Curve
 ![QuadraticCurve](./img/QuadraticCurve.gif)

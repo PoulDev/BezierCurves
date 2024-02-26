@@ -1,6 +1,6 @@
 from math import pow, sqrt
 from pygame import Surface, draw
-from .bezier import lerp
+from .math_functions import lerp, line_from_points, perpendicular, get_y_on_line
 from .theme import *
 
 class Render:
@@ -34,6 +34,10 @@ class Render:
     def render_lines(self, t, lines, hide):
         global constant_points
     
+        line = None
+        rendered_point = None
+        rendered_line = None
+
         for lerp_x, lerp_y, line in self.prerender_curve(t, lines):
             rendered_line = self.adjust_line_to_render(line)
             rendered_point = self.adjust_point_to_render([lerp_x, lerp_y])
@@ -41,6 +45,27 @@ class Render:
             if not hide:
                 draw.line(self.screen, LINE_COLOR, *rendered_line, 3)
                 draw.circle(self.screen, POINT_COLOR, rendered_point, 5)
+        
+        if rendered_line is None: return
+        return # TO FINISH
+
+        draw.line(self.screen, (0, 255, 0), *rendered_line, 3)
+        m, q = line_from_points(*rendered_line)
+        x1, x2 = rendered_point[0]-100, rendered_point[0]+100 #0, 1000
+        y1, y2 = get_y_on_line(m, q, x1), get_y_on_line(m, q, x2)
+        draw.line(self.screen, (0, 0, 255), (x1, y1), (x2, y2), 5)
+
+        pm, pq = perpendicular(m, q)
+        pq = 500
+        x1, x2 = 500, 600
+        y1, y2 = get_y_on_line(pm, pq, x1), get_y_on_line(pm, pq, x2)
+
+
+        draw.line(self.screen, (0, 255, 255), (x1, y1), (x2, y2), 5)
+        print(x1, y1, x2, y2)
+
+            draw.line(self.screen, (255, 0, 0), (x1, y1), (x2, y2), 2)
+        '''
 
     def prerender_lines(self, lines, hide):
         for t_step in range(0, 1001):

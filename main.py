@@ -1,7 +1,9 @@
+from numpy import random
 import pygame
 from render.render import Render
 from render.theme import *
 import time
+from render.math_functions import line_from_points, perpendicular, get_y_on_line
 
 t = 0
 running = True
@@ -111,8 +113,20 @@ while running:
             pointed_point = None
 
     # Render the Bezier Curve
-    for point in render.points:
+    for index, point in enumerate(render.points):
         pygame.draw.circle(screen, BEZIER_CURVE_COLOR, render.adjust_point_to_render(point), 2)
+
+    '''
+    print('finished rendering', point)
+    previous_point = render.points[index-1]
+    m, q = line_from_points(point, previous_point)
+    #perp_m, perp_q = perpendicular(derivate_m, derivate_q)
+    x1, x2 = -50, 50
+    y1 = get_y_on_line(m, q, x1)
+    y2 = get_y_on_line(m, q, x2)
+    pygame.draw.line(screen, (255, 0, 0), render.adjust_point_to_render([x1, y1]), render.adjust_point_to_render([x2, y2]), 2)
+    '''
+
 
     pygame.draw.circle(screen, MOUSE_DEFAULT, (mouse_position), 10 if not(mouse_active) else 4, 2)
 

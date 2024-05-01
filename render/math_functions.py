@@ -16,6 +16,7 @@ def get_y_on_line(m, q, x):
     # y = mx + q
     return m * x + q
 
-m, q = line_from_points((0, 1), (-0.5, 0))
-print(m, q)
-print(perpendicular(m, q))
+if __name__ == '__main__':
+    m, q = line_from_points((0, 1), (-0.5, 0))
+    print(m, q)
+    print(perpendicular(m, q))

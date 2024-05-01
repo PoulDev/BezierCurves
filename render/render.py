@@ -61,7 +61,6 @@ class Render:
         y1, y2 = get_y_on_line(pm, pq, x1), get_y_on_line(pm, pq, x2)
 
         draw.line(self.screen, (0, 255, 255), (x1, y1), (x2, y2), 5)
-        print(x1, y1, x2, y2)
 
         draw.line(self.screen, (255, 0, 0), (x1, y1), (x2, y2), 2)
 

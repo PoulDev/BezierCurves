@@ -12,7 +12,7 @@ print('''
 ------- COMMANDS -------
 (n) New Point 
 (m) Delete point
-(p) Enable/Disable PreRendering
+(i) Enable/Disable Instant Rendering
 (h) Hide/Show construction lines
 (g) Enable/Disable grid
 
@@ -82,7 +82,7 @@ while running:
                 render.points = []
                 selected_point = None
                 t = 0
-            elif event.key == pygame.K_p:
+            elif event.key == pygame.K_i:
                 prerender = not(prerender)
                 render.points = []
             elif event.key == pygame.K_h:

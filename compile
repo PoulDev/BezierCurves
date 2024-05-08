@@ -1,0 +1,4 @@
+#!/bin/bash
+
+g++ bezier.cpp -lSDL2 -std=c++20 -o bezier
+./bezier

@@ -18,7 +18,7 @@
 #define HEIGHT 600
 #define ZOOM 1
 #define DEBUG false
-#define DELAY 5
+#define DELAY 0
 
 using namespace std;
 
